@@ -9,10 +9,12 @@
             30
         </session-timeout>
     </session-config>
+    <!-- geef aan dat er een filter is, en welke klasse deze gebruikt -->
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
         <filter-class>session.AuthenticationFilter</filter-class>
     </filter>
+    <!-- Het filter moet geactiveert worden op de volgende url-patronen-->
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/klant/*</url-pattern>
@@ -21,25 +23,29 @@
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/rest/*</url-pattern>
     </filter-mapping>
+    <!-- Initializeer Jersey REST Servlet -->
     <servlet>
         <servlet-name>Jersey REST Service</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <!-- geef de package-naam op waar de REST-resource klassen in staan -->
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>controller</param-value>
         </init-param>
+        <!-- Map POJO's naar JSON -->
         <init-param>
             <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
             <param-value>true</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>session.LoginServlet</servlet-class>
-    </servlet>
+    <!-- Definieer een url-patroon voor de REST-resources -->
     <servlet-mapping>
         <servlet-name>Jersey REST Service</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>session.LoginServlet</servlet-class>
+    </servlet>
 </web-app>
